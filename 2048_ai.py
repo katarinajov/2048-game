@@ -106,18 +106,13 @@ class Display(Frame):
                 if valid_game:
                     self.matrix = game_functions.add_new_tile(self.matrix)
                     self.draw_grid_cells()
-                    if self.check_2048_tile():
-                        print("2048 tile reached! Stopping AI.")
-                        break
                 move_count += 1
         if key == AI_KEY:
             self.matrix, move_made = game_ai.ai_move(self.matrix, 20, 30)
             if move_made:
                 self.matrix = game_functions.add_new_tile(self.matrix)
                 self.draw_grid_cells()
-                if self.check_2048_tile():
-                    print("2048 tile reached! Stopping AI.")
-                move_made = False
+                    
 
     def check_2048_tile(self):
         for row in self.matrix:
