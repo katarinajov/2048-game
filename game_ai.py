@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
 # Broj mogućih poteza u igri (levo, gore, dole, desno)
 NUMBER_OF_MOVES = 4
@@ -89,10 +88,6 @@ def ai_play(board):
             # Ažuriranje table igre nakon validnog poteza
             board = (board) + 2
         
-        # Provera da li je igra dobijena
-        if check_for_win(board):
-            valid_game = False # Prekida petlju ako je igra dobijena
-        
         # Ispis trenutne table igre i broja poteza
         print(board)
         print(move_number)
@@ -101,42 +96,3 @@ def ai_play(board):
     print(board)
     # Vraća najveći broj (pločicu) postignut na kraju igre
     return np.amax(board)
-def ai_plot(move_func):
-    # Definiše lokacije oznaka na x-osi grafika, od 1 do 11.
-    tick_locations = np.arange(1, 12)
-    # Inicijalizuje prazan spisak za konačne rezultate igara.
-    final_scores = []
-    for _ in range(SAMPLE_COUNT):
-        # Ispisuje trenutni broj iteracije.
-        print('thing is ', _)
-        # Inicijalizuje novu igru.
-        board = initialize_game()
-        # Pokreće AI da igra igru, koristi funkciju 'ai' koja nije definisana u originalnom kodu.
-        game_is_win = ai(board)
-        # Dodaje rezultat igre u spisak konačnih rezultata.
-        final_scores.append(game_is_win)
-    
-    # Inicijalizuje niz za brojanje rezultata za svaku oznaku na x-osi.
-    all_counts = np.zeros(11)
-    # Dobija jedinstvene vrednosti rezultata i njihov broj iz konačnih rezultata.
-    unique, counts = np.unique(np.array(final_scores), return_counts=True)
-    # Konvertuje jedinstvene rezultate u njihove logaritme po osnovi 2 i pretvara ih u cele brojeve.
-    unique = np.log2(unique).astype(int)
-    index = 0
-
-    for tick in tick_locations:
-        # Ako je trenutna oznaka prisutna u jedinstvenim rezultatima, dodaje broj tih rezultata u niz all_counts.
-        if tick in unique:
-            all_counts[tick - 1] = counts[index]
-            index += 1
-
-    # Crta stubasti grafik sa lokacijama oznaka na x-osi i brojem rezultata na y-osi.
-    plt.bar(tick_locations, all_counts)
-    # Postavlja oznake na x-osi na 2^tick_locations (2, 4, 8, ..., 2048).
-    plt.xticks(tick_locations, np.power(2, tick_locations))
-    # Dodaje oznaku x-osi sa fontom veličine 24.
-    plt.xlabel("Score of Game", fontsize=24)
-    # Dodaje oznaku y-osi sa fontom veličine 24.
-    plt.ylabel(f"Frequency per {SAMPLE_COUNT} runs", fontsize=24)
-    # Prikazuje grafik.
-    plt.show()
